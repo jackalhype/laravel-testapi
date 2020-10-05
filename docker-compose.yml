@@ -1,0 +1,56 @@
+version: '3'
+services:
+  web:
+    build: ./docker/nginx
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - .:/var/www/html
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    depends_on:
+      - app
+      - db
+      - db_test
+    links:
+      - app
+
+  app:
+    build: ./docker/fpm
+    restart: always
+    depends_on:
+      - db
+      - db_test
+    env_file:
+      - ./.env
+    volumes:
+      - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./docker/fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - .:/var/www/html
+    expose:
+      - 9000
+
+  db:
+    image: "postgres:${DB_TAG}"
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 54322:5432
+
+  db_test:
+    image: "postgres:${DB_TAG}"
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 54323:5432
