@@ -19,4 +19,8 @@ docker ps
 docker ps -a
 
 ### Enter docker
-docker exec -ti pizza_php_1 sh
+docker exec -ti pizza_app_1 sh
+
+### Log Nginx access and errors
+docker logs --tail 50 --follow --timestamps pizza_web_1
+
