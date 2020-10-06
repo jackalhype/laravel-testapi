@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+if (\App::environment() === 'local') {
+    Route::get('info', fn() => phpinfo());
+    Route::get('env', function () {
+        echo '<pre>';
+        print_r(\config());
+        print_r($_ENV);
+        echo '</pre>';
+    });
+}
+
