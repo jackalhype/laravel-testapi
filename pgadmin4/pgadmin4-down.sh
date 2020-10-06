@@ -1,3 +1,2 @@
 #!/bin/bash
-docker rm -f pgadmin4
-
+docker stop pgadmin4_hostnet

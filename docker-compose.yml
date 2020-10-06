@@ -41,7 +41,7 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - 54322:5432
+      - 54322:${DB_PORT}
 
   db_test:
     image: "postgres:${DB_TAG}"
@@ -53,4 +53,13 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - 54323:5432
+      - 54323:${DB_PORT}
+
+  pgadmin4:
+    build: docker/pgadmin4
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+
