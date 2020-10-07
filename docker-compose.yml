@@ -13,8 +13,6 @@ services:
       - app
       - db
       - db_test
-    links:
-      - app
 
   app:
     build: ./docker/fpm
@@ -28,8 +26,6 @@ services:
       - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./docker/fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - .:/var/www/html
-    expose:
-      - 9000
 
   db:
     image: "postgres:${DB_TAG}"
@@ -44,16 +40,16 @@ services:
       - 54322:${DB_PORT}
 
   db_test:
-    image: "postgres:${DB_TAG}"
+    image: "postgres:${TEST_DB_TAG}"
     restart: always
     env_file:
       - ./.env
     environment:
-      - POSTGRES_DB=${DB_DATABASE}
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${TEST_DB_DATABASE}
+      - POSTGRES_USER=${TEST_DB_USERNAME}
+      - POSTGRES_PASSWORD=${TEST_DB_PASSWORD}
     ports:
-      - 54323:${DB_PORT}
+      - 54323:${TEST_DB_PORT}
 
   pgadmin4:
     build: docker/pgadmin4

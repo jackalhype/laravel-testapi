@@ -25,5 +25,11 @@ if (\App::environment() === 'local') {
         print_r($_ENV);
         echo '</pre>';
     });
+
+    Route::get('db', function() {
+        $app = app();
+        $con = DB::connection();
+        $a=1;
+    });
 }
 
