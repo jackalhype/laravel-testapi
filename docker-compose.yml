@@ -38,6 +38,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
       - 54322:${DB_PORT}
+    volumes:
+      - /private/var/lib/postgresql/data:/var/lib/postgresql/data
 
   db_test:
     image: "postgres:${TEST_DB_TAG}"
@@ -58,4 +60,5 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-
+    volumes:
+      - /private/var/lib/pgadmin:/var/lib/pgadmin
