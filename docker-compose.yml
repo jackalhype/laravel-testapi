@@ -39,7 +39,7 @@ services:
     ports:
       - 54322:${DB_PORT}
     volumes:
-      - /private/var/lib/postgresql/data:/var/lib/postgresql/data
+      - ${HOST_DB_STORAGE_ROOT}/var/lib/postgresql/data:/var/lib/postgresql/data
 
   db_test:
     image: "postgres:${TEST_DB_TAG}"
@@ -61,4 +61,4 @@ services:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     volumes:
-      - /private/var/lib/pgadmin:/var/lib/pgadmin
+      - ${HOST_DB_STORAGE_ROOT}/var/lib/pgadmin:/var/lib/pgadmin
