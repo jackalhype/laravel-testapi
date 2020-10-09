@@ -29,7 +29,6 @@ class DocumentSaveRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'payload' => [ 'required', 'string', '' ],
         ];
 
         switch($this->method()) {
@@ -37,7 +36,9 @@ class DocumentSaveRequest extends FormRequest
                 return $rules;
             case 'PUT':
             case 'PATCH':
-                return [ 'payload' => [ 'required', 'string', '' ] ];
+                return array_merge($rules, [
+                    'payload' => [ 'required', 'string', 'json' ],
+                ]);
         }
 
         return $rules;

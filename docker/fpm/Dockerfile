@@ -36,4 +36,7 @@ EXPOSE 9000
 CMD ["php-fpm"]
 
 RUN adduser -D -H -h /var/www/html app
+
+RUN mkdir -p /var/log/xdebug/ && chown -R app:app /var/log/xdebug
+
 USER app

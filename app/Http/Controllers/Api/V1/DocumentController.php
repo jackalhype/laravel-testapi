@@ -7,8 +7,11 @@ use App\Http\Requests\Document\DocumentIndexRequest;
 use App\Http\Requests\Document\DocumentPublishRequest;
 use App\Http\Requests\Document\DocumentSaveRequest;
 use App\Http\Requests\Document\DocumentShowRequest;
+use App\Http\Resources\DocumentResource;
+use App\Http\Services\DocumentStoreService;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DocumentController extends Controller
 {
@@ -17,20 +20,17 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DocumentIndexRequest $request)
+    public function index(DocumentIndexRequest $request) : Response
     {
         //
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(DocumentSaveRequest $request)
+    public function store(DocumentSaveRequest $request, DocumentStoreService $service) : DocumentResource
     {
-        //
+        return $service->store($request->validated());
     }
 
     /**
@@ -39,7 +39,7 @@ class DocumentController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function show(DocumentShowRequest $request, Document $document)
+    public function show(DocumentShowRequest $request, Document $document) : Response
     {
         //
     }
@@ -51,7 +51,7 @@ class DocumentController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function update(DocumentSaveRequest $request, Document $document)
+    public function update(DocumentSaveRequest $request, Document $document) : Response
     {
         //
     }
@@ -63,7 +63,8 @@ class DocumentController extends Controller
      * @param Request $request
      * @param Document $document
      */
-    public function publish(DocumentPublishRequest $request, Document $document) {
+    public function publish(DocumentPublishRequest $request, Document $document) : Response
+    {
 
     }
 
@@ -73,7 +74,7 @@ class DocumentController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Document $document)
+    public function destroy(Document $document) : Response
     {
         //
     }

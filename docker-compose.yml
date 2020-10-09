@@ -22,6 +22,8 @@ services:
       - db_test
     env_file:
       - ./.env
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
     volumes:
       - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./docker/fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
