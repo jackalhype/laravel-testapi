@@ -5,18 +5,15 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
-use Tests\TestCase;
+use Tests\AppTestCase;
 
-class DatabaseTest extends TestCase
+class DatabaseTest extends AppTestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testHasDocumentsTable()
+    public function testUsingDbTest() : void
     {
         $con = DB::connection();
-
+        $db_cons = config('database.connections');
+        $defult = config('database.default');
+        $this->assertEquals('db_test', $con->getConfig()['host']);
     }
 }
