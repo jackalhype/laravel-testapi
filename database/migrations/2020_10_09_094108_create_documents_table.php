@@ -19,8 +19,8 @@ class CreateDocumentsTable extends Migration
 
         Schema::create('documents', function (Blueprint $table) {
             $table->uuid('id')->nullable(false)->primary()->unique()->default(DB::raw('uuid_generate_v4()'));
-            $table->smallInteger('status');
-            $table->json('payload');
+            $table->smallInteger('status')->default(0);
+            $table->json('payload')->default('{}');
             $table->softDeletesTz();
             $table->timestampsTz();
         });

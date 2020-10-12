@@ -20,6 +20,7 @@ class DocumentStoreTest extends AppTestCase
         $response = $this->json($this->method, $this->route, [
             'payload' => ['time' => 'to make', 'some' => 'bigger things']
         ]);
+        $c = $response->content();
 
         $response->assertStatus(200);
     }

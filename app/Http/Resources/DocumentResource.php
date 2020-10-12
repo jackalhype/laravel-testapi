@@ -18,8 +18,8 @@ class DocumentResource extends JsonResource
             'id' => $this->id,
             'status' => $this->status,
             'payload' => $this->payload,
-            'createAt' => $this->createAt,
-            'modifyAt' => $this->modifyAt,
+            'createAt' => $this->created_at,
+            'modifyAt' => $this->updated_at,
         ];
     }
 }

@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Document
  * @package App\Models
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Document extends Model
+class Document extends UuidModel
 {
     use HasFactory;
 
