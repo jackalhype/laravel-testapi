@@ -23,7 +23,7 @@ services:
     env_file:
       - ./.env
     environment:
-      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}  # very important fo console scripts
     volumes:
       - ./docker/fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./docker/fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
