@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Document;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Tests\AppTestCase;
 
-class DocumentStoreTest extends TestCase
+class DocumentStoreTest extends AppTestCase
 {
     use RefreshDatabase;
 
-    protected $route = '/api/v1/document';
+    protected $route = '/api/v1/documents';
     protected $method = 'POST';
 
     public function testStore() : void

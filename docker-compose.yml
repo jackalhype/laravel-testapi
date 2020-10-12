@@ -42,6 +42,7 @@ services:
       - 54322:${DB_PORT}
     volumes:
       - ${HOST_DB_STORAGE_ROOT}/var/lib/postgresql/data:/var/lib/postgresql/data
+      - ./docker/db/initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   db_test:
     image: "postgres:${TEST_DB_TAG}"
@@ -54,6 +55,8 @@ services:
       - POSTGRES_PASSWORD=${TEST_DB_PASSWORD}
     ports:
       - 54323:${TEST_DB_PORT}
+    volumes:
+      - ./docker/db_test/initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin4:
     build: docker/pgadmin4

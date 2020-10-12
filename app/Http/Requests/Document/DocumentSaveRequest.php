@@ -29,6 +29,7 @@ class DocumentSaveRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'payload' => [ 'sometimes', 'array' ],
         ];
 
         switch($this->method()) {
