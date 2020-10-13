@@ -11,7 +11,7 @@ class DocumentStoreService
     public function store(array $data) : DocumentResource
     {
         $document = new Document();
-        $document->payload = $data['payload'];
+        $document->payload = $data['payload'] ?? \json_encode('{}');
         $document->status = DocumentStatus::DRAFT;
         $document->saveOrFail();
         return new DocumentResource($document);

@@ -2,24 +2,18 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class DocumentResource extends JsonResource
+class DocumentResource extends AppJsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArray($request)
+    public static $wrap = 'document';
+
+    public function toArray($request) : array
     {
         return [
             'id' => $this->id,
             'status' => $this->status,
             'payload' => $this->payload,
-            'createAt' => $this->created_at,
-            'modifyAt' => $this->updated_at,
+            'createAt' => $this->ftime($this->created_at),
+            'modifyAt' => $this->ftime($this->updated_at),
         ];
     }
 }

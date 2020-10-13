@@ -11,6 +11,7 @@ use App\Http\Resources\DocumentResource;
 use App\Http\Services\DocumentStoreService;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class DocumentController extends Controller
@@ -28,9 +29,15 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DocumentSaveRequest $request, DocumentStoreService $service) : DocumentResource
+    public function store(DocumentSaveRequest $request, DocumentStoreService $service)
     {
-        return $service->store($request->validated());
+        $resource = $service->store($request->validated());
+        $responce = $resource->toResponse($request);
+        $status_code = $responce->getStatusCode();
+        if ($status_code === 201) {
+            $responce->setStatusCode(200);
+        }
+        return $responce;
     }
 
     /**
