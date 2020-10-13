@@ -37,6 +37,7 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         $this->clearCache();
+        Artisan::call('migrate');
         return $app;
     }
 
@@ -61,7 +62,5 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function prepare() : void
     {
-        echo " NOTPREPARED\n";
     }
-
 }

@@ -9,6 +9,8 @@ class DocumentStoreTest extends AppTestCase
     protected $route = '/api/v1/documents';
     protected $method = 'POST';
 
+    public function prepare() : void {}
+
     /**
      * @dataProvider storeDataProvider
      */

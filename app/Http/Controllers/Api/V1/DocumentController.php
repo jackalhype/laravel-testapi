@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\DocumentIndexRequest;
 use App\Http\Requests\Document\DocumentPublishRequest;
-use App\Http\Requests\Document\DocumentSaveRequest;
+use App\Http\Requests\Document\DocumentStoreRequest;
 use App\Http\Requests\Document\DocumentShowRequest;
+use App\Http\Requests\Document\DocumentUpdateRequest;
 use App\Http\Resources\DocumentResource;
 use App\Http\Services\DocumentStoreService;
+use App\Http\Services\DocumentUpdateService;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -29,7 +31,7 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DocumentSaveRequest $request, DocumentStoreService $service)
+    public function store(DocumentStoreRequest $request, DocumentStoreService $service)
     {
         $resource = $service->store($request->validated());
         $responce = $resource->toResponse($request);
@@ -55,11 +57,12 @@ class DocumentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Document  $document
-     * @return \Illuminate\Http\Response
      */
-    public function update(DocumentSaveRequest $request, Document $document) : Response
+    public function update(DocumentUpdateRequest $request,
+                           Document $document,
+                           DocumentUpdateService $service) : DocumentResource
     {
-        //
+        return $service->update($document, $request->validated());
     }
 
 

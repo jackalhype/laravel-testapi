@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\DocumentStatus;
 use App\Models\Document;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,11 +23,8 @@ class DocumentFactory extends Factory
     public function definition()
     {
         return [
-            'payload' => [
-                'one' => $this->faker->streetName,
-                'two' => $this->faker->country,
-                'three' => $this->faker->year,
-            ]
+            'payload' => [],
+            'status' => DocumentStatus::DRAFT,
         ];
     }
 }

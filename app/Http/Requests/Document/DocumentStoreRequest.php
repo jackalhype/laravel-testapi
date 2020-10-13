@@ -6,7 +6,7 @@ use App\Enums\DocumentStatus;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DocumentSaveRequest extends FormRequest
+class DocumentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,10 +15,10 @@ class DocumentSaveRequest extends FormRequest
      */
     public function authorize()
     {
-        if (! in_array($this->method(), ['POST', 'PATCH'])) {
-            return false;
+        if ($this->method() === 'POST') {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -28,20 +28,8 @@ class DocumentSaveRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        return [
             'payload' => [ 'sometimes', 'array' ],
         ];
-
-        switch($this->method()) {
-            case 'POST':
-                return $rules;
-            case 'PUT':
-            case 'PATCH':
-                return array_merge($rules, [
-                    'payload' => [ 'required', 'string', 'json' ],
-                ]);
-        }
-
-        return $rules;
     }
 }

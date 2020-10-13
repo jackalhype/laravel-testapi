@@ -9,7 +9,7 @@ class DocumentResource extends AppJsonResource
     public function toArray($request) : array
     {
         return [
-            'id' => $this->id,
+            'id' => (string) $this->id,
             'status' => $this->status,
             'payload' => $this->payload,
             'createAt' => $this->ftime($this->created_at),
