@@ -32,7 +32,8 @@ class DocumentUpdateTest extends AppTestCase
         $this->withoutExceptionHandling();
 //        var_dump(self::$document_id);
         $response = $this->json($this->method, $this->route .'/'. self::$document_id, $data);
-        $response->assertJsonStructure([
+        $response->assertStatus(200)
+            ->assertJsonStructure([
             'document' => [
                 'id',
                 'status',

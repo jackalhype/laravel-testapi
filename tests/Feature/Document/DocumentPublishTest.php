@@ -27,7 +27,8 @@ class DocumentPublishTest extends AppTestCase
     public function testPublish() {
         $this->withoutExceptionHandling();
         $response = $this->json($this->method, $this->route .'/'. self::$document_id .'/publish');
-        $response->assertJsonStructure([
+        $response->assertStatus(200)
+            ->assertJsonStructure([
             'document' => [
                 'id',
                 'status',
@@ -37,5 +38,5 @@ class DocumentPublishTest extends AppTestCase
             ]
         ])->assertJsonFragment(['status' => DocumentStatus::PUBLISHED]);
     }
-        
+
 }

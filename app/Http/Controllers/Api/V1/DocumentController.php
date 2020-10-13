@@ -44,20 +44,14 @@ class DocumentController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\Document  $document
-     * @return \Illuminate\Http\Response
      */
-    public function show(DocumentShowRequest $request, Document $document) : Response
+    public function show(DocumentShowRequest $request, Document $document) : DocumentResource
     {
-        //
+        return new DocumentResource($document);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Document  $document
      */
     public function update(DocumentUpdateRequest $request,
                            Document $document,
@@ -69,9 +63,6 @@ class DocumentController extends Controller
 
     /**
      * Publish the Document
-     *
-     * @param Request $request
-     * @param Document $document
      */
     public function publish(DocumentPublishRequest $request,
                             Document $document,
