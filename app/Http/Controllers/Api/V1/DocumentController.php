@@ -9,6 +9,7 @@ use App\Http\Requests\Document\DocumentStoreRequest;
 use App\Http\Requests\Document\DocumentShowRequest;
 use App\Http\Requests\Document\DocumentUpdateRequest;
 use App\Http\Resources\DocumentResource;
+use App\Http\Services\DocumentPublishService;
 use App\Http\Services\DocumentStoreService;
 use App\Http\Services\DocumentUpdateService;
 use App\Models\Document;
@@ -72,9 +73,11 @@ class DocumentController extends Controller
      * @param Request $request
      * @param Document $document
      */
-    public function publish(DocumentPublishRequest $request, Document $document) : Response
+    public function publish(DocumentPublishRequest $request,
+                            Document $document,
+                            DocumentPublishService $service) : DocumentResource
     {
-
+        return $service->publish($document, $request->validated());
     }
 
     /**

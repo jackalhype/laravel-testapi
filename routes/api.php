@@ -22,6 +22,6 @@ Route::group([ 'prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1' ],
     Route::post('documents', 'DocumentController@store')->name('document.store');
     Route::patch('documents/{document}', 'DocumentController@update')->name('document.update');
     Route::get('documents/{document}', 'DocumentController@show')->name('document.show');;
-    Route::post('documents{document}/publish', 'DocumentController@publish')->name('document.publish');;
+    Route::post('documents/{document}/publish', 'DocumentController@publish')->name('document.publish');;
     Route::get('documents', 'DocumentController@index')->name('document.index');
 });
