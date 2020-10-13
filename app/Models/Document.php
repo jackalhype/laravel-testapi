@@ -14,6 +14,7 @@ class Document extends UuidModel
     use HasFactory;
 
     protected $casts = [
+        'id' => 'string',
         'payload' => 'array'
     ];
 }
