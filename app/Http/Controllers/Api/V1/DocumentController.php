@@ -33,8 +33,7 @@ class DocumentController extends Controller
     {
         $resource = $service->store($request->validated());
         $responce = $resource->toResponse($request);
-        $status_code = $responce->getStatusCode();
-        if ($status_code === 201) {
+        if ($responce->getStatusCode() === 201) {
             $responce->setStatusCode(200);
         }
         return $responce;

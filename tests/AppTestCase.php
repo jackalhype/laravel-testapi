@@ -6,6 +6,26 @@ use Illuminate\Support\Facades\Artisan;
 
 class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
+    /**
+     * @var bool repeat var in sibling class, and override prepare() method to called once
+     */
+    protected static bool $initialized;
+
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        static::$initialized = false;
+    }
+
+    /**
+     * get/set $initialized
+     */
+    public function inited($val=null) {
+        if (null === $val) {
+            return static::$initialized;
+        }
+        static::$initialized = $val;
+    }
 
     /**
      * Creates the application.
@@ -31,12 +51,17 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
     public function setUp() : void
     {
         parent::setUp();
-        Artisan::call('migrate');
+        if ($this->inited()) return;
+        $this->prepare();
+        $this->inited(true);
     }
 
-    public function tearDown() : void
+    /**
+     * override in Test, to execute once for all tests in Class
+     */
+    public function prepare() : void
     {
-        Artisan::call('migrate:reset');
-        parent::tearDown();
+        echo " NOTPREPARED\n";
     }
+
 }

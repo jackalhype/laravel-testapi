@@ -22,7 +22,11 @@ class DocumentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'payload' => [
+                'one' => $this->faker->streetName,
+                'two' => $this->faker->country,
+                'three' => $this->faker->year,
+            ]
         ];
     }
 }
