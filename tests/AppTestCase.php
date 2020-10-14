@@ -11,12 +11,13 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     protected static bool $initialized;
 
-    protected static bool $app_once_created;
+    protected static bool $once_migrated;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         static::$initialized = false;
+        self::$once_migrated = false;
     }
 
     /**
@@ -57,8 +58,11 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         parent::setUp();
         if ($this->inited()) return;
-        Artisan::call('migrate:refresh');
-        Artisan::call('migrate');
+        if (!self::$once_migrated) {
+            Artisan::call('migrate:refresh');
+            Artisan::call('migrate');
+            self::$once_migrated = true;
+        }
         $this->prepare();
         $this->inited(true);
     }
