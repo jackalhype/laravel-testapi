@@ -21,7 +21,10 @@ use Illuminate\Http\Response;
 class DocumentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/projects",
+     *     @OA\Response(response="200", description="Display a listing of projects.")
+     * )
      */
     public function index(DocumentIndexRequest $request)
     {
