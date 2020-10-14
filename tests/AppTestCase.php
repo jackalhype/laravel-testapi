@@ -20,11 +20,11 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * get/set $initialized
      */
-    public function inited($val=null) {
+    public function inited($val=null) : bool {
         if (null === $val) {
             return static::$initialized;
         }
-        static::$initialized = $val;
+        return static::$initialized = $val;
     }
 
     /**
@@ -37,7 +37,11 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         $this->clearCache();
+        Artisan::call('migrate:refresh');
         Artisan::call('migrate');
+        parent::beforeApplicationDestroyed(function() {
+            //
+        });
         return $app;
     }
 

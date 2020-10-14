@@ -8,6 +8,7 @@ use App\Http\Requests\Document\DocumentPublishRequest;
 use App\Http\Requests\Document\DocumentStoreRequest;
 use App\Http\Requests\Document\DocumentShowRequest;
 use App\Http\Requests\Document\DocumentUpdateRequest;
+use App\Http\Resources\Collections\DocumentResourceCollection;
 use App\Http\Resources\DocumentResource;
 use App\Http\Services\DocumentPublishService;
 use App\Http\Services\DocumentStoreService;
@@ -21,12 +22,15 @@ class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(DocumentIndexRequest $request) : Response
+    public function index(DocumentIndexRequest $request)
     {
-        //
+        $page = $request->get('page', 1);
+        $perPage = $request->get('perPage', 20);
+        $docs = Document::orderByDesc('status')
+            ->orderByDesc('updated_at')
+            ->paginate($perPage, ['*'],'page', $page);
+        return new DocumentResourceCollection(DocumentResource::collection($docs));
     }
 
     /**
