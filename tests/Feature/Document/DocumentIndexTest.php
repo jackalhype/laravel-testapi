@@ -28,10 +28,8 @@ class DocumentIndexTest extends AppTestCase
     {
         $this->withoutExceptionHandling();
         $response = $this->json($this->method, $this->route . '?page=1' );
-        $c = json_decode($response->content(), true);
-        print_r($c);
-        $x = DB::select('select count(*) as x from documents')[0]->x;
-        print ("docs db count: {$x}\n");
+//        $c = json_decode($response->content(), true);
+//        print_r($c);
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'document' => [

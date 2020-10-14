@@ -11,6 +11,8 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     protected static bool $initialized;
 
+    protected static bool $app_once_created;
+
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
@@ -37,10 +39,8 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         $this->clearCache();
-        Artisan::call('migrate:refresh');
-        Artisan::call('migrate');
         parent::beforeApplicationDestroyed(function() {
-            //
+
         });
         return $app;
     }
@@ -57,6 +57,8 @@ class AppTestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         parent::setUp();
         if ($this->inited()) return;
+        Artisan::call('migrate:refresh');
+        Artisan::call('migrate');
         $this->prepare();
         $this->inited(true);
     }
