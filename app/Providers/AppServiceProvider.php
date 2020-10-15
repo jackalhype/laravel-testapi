@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Kernel;
 use App\Http\Resources\AppJsonResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         AppJsonResource::withoutWrapping();
+
+        // swagger autogen:
+        $this->app->singleton('L5Swagger\Http\Controllers\SwaggerController', function($app) {
+            return new \App\Http\Controllers\SwaggerController($app->make('L5Swagger\GeneratorFactory'));
+        });
     }
 }

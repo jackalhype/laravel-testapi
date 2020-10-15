@@ -22,7 +22,7 @@ class DocumentController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/projects",
+     *     path="/api/v4444/documents",
      *     @OA\Response(response="200", description="Display a listing of projects.")
      * )
      */

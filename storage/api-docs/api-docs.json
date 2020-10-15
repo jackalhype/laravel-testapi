@@ -1,11 +1,11 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Swagger github SMM",
+        "title": "Api documentation",
         "version": "0.1"
     },
     "paths": {
-        "/projects": {
+        "/api/v4444/documents": {
             "get": {
                 "operationId": "App\\Http\\Controllers\\Api\\V1\\DocumentController::index",
                 "responses": {
