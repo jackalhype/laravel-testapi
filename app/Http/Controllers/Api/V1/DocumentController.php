@@ -21,9 +21,24 @@ use Illuminate\Http\Response;
 class DocumentController extends Controller
 {
     /**
+     * List documents
+     *
      * @OA\Get(
-     *     path="/api/v4444/documents",
-     *     @OA\Response(response="200", description="Display a listing of projects.")
+     *     tags={"Documents"},
+     *     path="/api/v1/documents?page={page}",
+     *     @OA\Parameter(
+     *         in="query",
+     *         name="page",
+     *         required=false,
+     *         description="1-based page number"
+     *     ),
+     *     @OA\Response(
+     *        response="200",
+     *        description="Successful operation",
+     *        @OA\JsonContent(
+     *              ref="#/components/schemas/DocumentResourceCollection"
+     *        ),
+     *     )
      * )
      */
     public function index(DocumentIndexRequest $request)
@@ -37,7 +52,33 @@ class DocumentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created document
+     *
+     * @OA\Post(
+     *     tags={"Documents"},
+     *     path="/api/v1/documents",
+     *     @OA\RequestBody(
+     *        required=false,
+     *        @OA\JsonContent(
+     *            @OA\Property(
+     *               property="payload",
+     *               type="object",
+     *               example={"actor":"rabbit","action":"run"}
+     *            )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *        response="200",
+     *        description="Successful operation",
+     *        @OA\JsonContent(
+     *           @OA\Property(
+     *              property="document",
+     *              type="object",
+     *              ref="#/components/schemas/DocumentResource"
+     *           )
+     *        ),
+     *     )
+     * )
      */
     public function store(DocumentStoreRequest $request, DocumentStoreService $service)
     {
@@ -50,7 +91,33 @@ class DocumentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the specified document
+     *
+     * @OA\Get(
+     *     tags={"Documents"},
+     *     path="/api/v1/documents/{document}",
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="document",
+     *         required=true,
+     *         description="uuid e.g.: 6b43adfa-86cb-30ff-bb35-92f1a479d760"
+     *     ),
+     *     @OA\Response(
+     *        response="200",
+     *        description="Successful operation",
+     *        @OA\JsonContent(
+     *           @OA\Property(
+     *              property="document",
+     *              type="object",
+     *              ref="#/components/schemas/DocumentResource"
+     *           )
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Not found"
+     *     )
+     * )
      */
     public function show(DocumentShowRequest $request, Document $document) : DocumentResource
     {
@@ -58,7 +125,46 @@ class DocumentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Document
+     *
+     * @OA\Patch(
+     *     tags={"Documents"},
+     *     path="/api/v1/documents/{document}",
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="document",
+     *         required=true,
+     *         description="uuid e.g.: 6b43adfa-86cb-30ff-bb35-92f1a479d760"
+     *     ),
+     *     @OA\RequestBody(
+     *        @OA\JsonContent(
+     *           @OA\Property(
+     *              property="document",
+     *              type="object",
+     *              @OA\Property(
+     *                  property="payload",
+     *                  type="object",
+     *                  example={"actor":"hero","action":"update stuff"}
+     *              )
+     *           )
+     *        )
+     *     ),
+     *     @OA\Response(
+     *        response="200",
+     *        description="Successful operation",
+     *        @OA\JsonContent(
+     *           @OA\Property(
+     *              property="document",
+     *              type="object",
+     *              ref="#/components/schemas/DocumentResource"
+     *           )
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response="403",
+     *        description="Unauthorized",
+     *     )
+     * )
      */
     public function update(DocumentUpdateRequest $request,
                            Document $document,
@@ -70,6 +176,32 @@ class DocumentController extends Controller
 
     /**
      * Publish the Document
+     *
+     *  @OA\Post(
+     *     tags={"Documents"},
+     *     path="/api/v1/documents/{document}/publish",
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="document",
+     *         required=true,
+     *         description="uuid e.g.: 6b43adfa-86cb-30ff-bb35-92f1a479d760"
+     *     ),
+     *     @OA\Response(
+     *        response="200",
+     *        description="Successful operation",
+     *        @OA\JsonContent(
+     *           @OA\Property(
+     *              property="document",
+     *              type="object",
+     *              ref="#/components/schemas/DocumentResourcePublished"
+     *           )
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *        response="403",
+     *        description="Unauthorized",
+     *     )
+     *  )
      */
     public function publish(DocumentPublishRequest $request,
                             Document $document,

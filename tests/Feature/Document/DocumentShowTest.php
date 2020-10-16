@@ -4,6 +4,8 @@ namespace Tests\Feature\Document;
 
 use App\Enums\DocumentStatus;
 use App\Models\Document;
+use App\Models\UuidModel;
+use Faker\Provider\Uuid;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\AppTestCase;
 
@@ -19,7 +21,7 @@ class DocumentShowTest extends AppTestCase
     /**
      * @dataProvider showDataProvider
      */
-    public function testPublish($data, $jsonFragment)
+    public function testShow($data, $jsonFragments)
     {
         $this->withoutExceptionHandling();
         $this->document = Document::factory()->create($data);
@@ -34,7 +36,18 @@ class DocumentShowTest extends AppTestCase
                 'createAt',
                 'modifyAt',
             ]
-        ])->assertJsonFragment($jsonFragment);
+        ]);
+        foreach($jsonFragments as $jsonFragment) {
+            $response->assertJsonFragment($jsonFragment);
+        }
+
+    }
+
+    public function testNotFound()
+    {
+        $missing_id = Uuid::uuid();
+        $response = $this->json($this->method, $this->route . '/' . $missing_id);
+        $response->assertStatus(404);
     }
 
     public function showDataProvider() : array
@@ -44,13 +57,19 @@ class DocumentShowTest extends AppTestCase
                 'data' => [
                     'payload' => [ '1st' => 'test' ]
                 ],
-                'jsonFragment' => [ '1st' => 'test' ],
+                'jsonFragments' => [
+                    [ '1st' => 'test' ],
+                    [ 'status' => 'DRAFT' ],
+                ],
             ],
             '2nd show' => [
                 'data' => [
                     'payload' => [ '2nd' => 'in db' ]
                 ],
-                'jsonFragment' => [ '2nd' => 'in db' ],
+                'jsonFragments' => [
+                    [ '2nd' => 'in db' ],
+                    [ 'status' => 'DRAFT' ],
+                ]
             ],
         ];
     }

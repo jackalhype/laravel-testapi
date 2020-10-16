@@ -15,9 +15,11 @@ class DocumentUpdateService
             $doc = Document::where('id', '=', $document->id)
                 ->lockForUpdate()->first();
             $payload = $data['document']['payload'] ?? [];
-            $doc_payload = $doc->payload;
-            foreach($payload as $k => $v) {
-                $doc_payload[$k] = $v;
+            $doc_payload = is_array($doc->payload) ? $doc->payload : [];
+            if (is_array($payload)) {
+                foreach ($payload as $k => $v) {
+                    $doc_payload[$k] = $v;
+                }
             }
             $doc->payload = $doc_payload;
             $doc->saveOrFail();

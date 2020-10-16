@@ -36,7 +36,7 @@ class DocumentPublishTest extends AppTestCase
                 'createAt',
                 'modifyAt',
             ]
-        ])->assertJsonFragment(['status' => DocumentStatus::PUBLISHED]);
+        ])->assertJsonFragment(['status' => 'PUBLISHED']);
     }
 
 }

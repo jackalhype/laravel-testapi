@@ -5,14 +5,334 @@
         "version": "0.1"
     },
     "paths": {
-        "/api/v4444/documents": {
+        "/api/v1/documents?page={page}": {
             "get": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "List documents",
                 "operationId": "App\\Http\\Controllers\\Api\\V1\\DocumentController::index",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "1-based page number",
+                        "required": false
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Display a listing of projects."
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DocumentResourceCollection"
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        },
+        "/api/v1/documents": {
+            "post": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Store a newly created document",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\DocumentController::store",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "payload": {
+                                        "description": "Store a newly created document",
+                                        "type": "object",
+                                        "example": {
+                                            "actor": "rabbit",
+                                            "action": "run"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "document": {
+                                            "$ref": "#/components/schemas/DocumentResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/documents/{document}": {
+            "get": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Show the specified document",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\DocumentController::show",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "uuid e.g.: 6b43adfa-86cb-30ff-bb35-92f1a479d760",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "document": {
+                                            "$ref": "#/components/schemas/DocumentResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Update the specified Document",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\DocumentController::update",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "uuid e.g.: 6b43adfa-86cb-30ff-bb35-92f1a479d760",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "document": {
+                                        "description": "Update the specified Document",
+                                        "properties": {
+                                            "payload": {
+                                                "description": "Update the specified Document",
+                                                "type": "object",
+                                                "example": {
+                                                    "actor": "hero",
+                                                    "action": "update stuff"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "document": {
+                                            "$ref": "#/components/schemas/DocumentResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/v1/documents/{document}/publish": {
+            "post": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Publish the Document",
+                "operationId": "App\\Http\\Controllers\\Api\\V1\\DocumentController::publish",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "uuid e.g.: 6b43adfa-86cb-30ff-bb35-92f1a479d760",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "document": {
+                                            "$ref": "#/components/schemas/DocumentResourcePublished"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DocumentStatus": {
+                "description": "The status of a Document",
+                "type": "string",
+                "default": "DRAFT",
+                "enum": [
+                    "DRAFT",
+                    "PUBLISHED"
+                ]
+            },
+            "DocumentResourceCollection": {
+                "title": "Document Resource Collection",
+                "description": "Document Resource Collection",
+                "properties": {
+                    "document": {
+                        "description": "Class DocumentResourceCollection",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DocumentResource"
+                        }
+                    },
+                    "pagination": {
+                        "description": "Class DocumentResourceCollection",
+                        "properties": {
+                            "page": {
+                                "description": "current page",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "perPage": {
+                                "description": "how many items per page",
+                                "type": "integer",
+                                "example": 20
+                            },
+                            "total": {
+                                "description": "total items",
+                                "type": "integer",
+                                "example": 100500
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "DocumentResource": {
+                "title": "Document Resource",
+                "description": "Document Resource",
+                "properties": {
+                    "id": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "6b43adfa-86cb-30ff-bb35-92f1a479d760"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/DocumentStatus"
+                    },
+                    "payload": {
+                        "description": "Payload json",
+                        "type": "object",
+                        "example": {
+                            "actor": "rabbit",
+                            "action": "run"
+                        }
+                    },
+                    "createAt": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "2020-10-16 12:46:52 +00:00"
+                    },
+                    "modifyAt": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "2020-10-16 12:46:52 +00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "DocumentResourcePublished": {
+                "title": "Document Resource",
+                "description": "Document Resource",
+                "properties": {
+                    "id": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "6b43adfa-86cb-30ff-bb35-92f1a479d760"
+                    },
+                    "status": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "PUBLISHED"
+                    },
+                    "payload": {
+                        "description": "Payload json",
+                        "type": "object",
+                        "example": {
+                            "actor": "rabbit",
+                            "action": "run"
+                        }
+                    },
+                    "createAt": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "2020-10-16 12:46:52 +00:00"
+                    },
+                    "modifyAt": {
+                        "description": "Class DocumentResource",
+                        "type": "string",
+                        "example": "2020-10-16 12:46:52 +00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "document_id": {
+                "description": "Uuid of the document",
+                "type": "string",
+                "example": "6b43adfa-86cb-30ff-bb35-92f1a479d760"
             }
         }
     },

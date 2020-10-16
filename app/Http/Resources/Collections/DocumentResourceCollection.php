@@ -6,12 +6,35 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Class DocumentResourceCollection
+ * @package App\Http\Resources\Collections
+ *
+ * @OA\Schema(
+ *     description="Document Resource Collection",
+ *     type="object",
+ *     title="Document Resource Collection",
+ *     @OA\Property(
+ *        property="document",
+ *        type="array",
+ *        @OA\Items(
+ *           ref="#/components/schemas/DocumentResource"
+ *        )
+ *     ),
+ *     @OA\Property(
+ *        property="pagination",
+ *        type="object",
+ *        @OA\Property(property="page", type="integer", description="current page", example=1),
+ *        @OA\Property(property="perPage", type="integer", description="how many items per page", example=20),
+ *        @OA\Property(property="total", type="integer", description="total items", example=100500)
+ *     )
+ * )
+ */
 class DocumentResourceCollection extends ResourceCollection
 {
     private array $pagination;
 
     public static $wrap = 'document';
-
 
     public function __construct($resource)
     {
@@ -44,6 +67,4 @@ class DocumentResourceCollection extends ResourceCollection
             'pagination' => $this->pagination,
         ];
     }
-
-
 }
