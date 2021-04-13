@@ -24,7 +24,7 @@ RUN docker-php-ext-install -j$(nproc) pdo_pgsql
 
 # xdebug:
 RUN apk add --virtual .xdbg-build-deps $XDBG_BUILD_DEPS
-RUN pecl install -f xdebug && \
+RUN pecl install -f xdebug-2.9.2 && \
     docker-php-ext-enable xdebug
 
 # cleaning up:

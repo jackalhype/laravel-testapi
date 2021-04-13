@@ -2,6 +2,7 @@ version: '3'
 services:
   web:
     build: ./docker/nginx
+    container_name: web
     volumes:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - .:/var/www/html
@@ -16,6 +17,7 @@ services:
 
   app:
     build: ./docker/fpm
+    container_name: app
     restart: always
     depends_on:
       - db
@@ -31,6 +33,7 @@ services:
 
   db:
     image: "postgres:${DB_TAG}"
+    container_name: db
     restart: always
     env_file:
       - ./.env
@@ -46,6 +49,7 @@ services:
 
   db_test:
     image: "postgres:${TEST_DB_TAG}"
+    container_name: db_test
     restart: always
     env_file:
       - ./.env
@@ -60,6 +64,7 @@ services:
 
   pgadmin4:
     build: docker/pgadmin4
+    container_name: pgadmin4
     ports:
       - 5050:80
     environment:
